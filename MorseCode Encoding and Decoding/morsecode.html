@@ -1,0 +1,93 @@
+<html>
+<head>
+<title>Morse Code</title>
+<script>
+
+function encdec(){
+	let str_input = document.getElementById("input").value;
+	let operation = document.getElementById("operation").value;
+	
+	const mcode = {
+      'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+      'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+      'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+      'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+      'Y': '-.--', 'Z': '--..', ' ': ' ', '0': '-----',
+      '1': '.----', '2': '..---', '3': '...--', '4': '....-', '5': '.....',
+      '6': '-....', '7': '--...', '8': '---..', '9': '----.',
+      '&': '.-...', "'": '.----.', '@': '.--.-.', ')': '-.--.-', '(': '-.--.',
+      ':': '---...', ',': '--..--', '=': '-...-', '!': '-.-.--', '.': '.-.-.-',
+      '-': '-....-', '+': '.-.-.', '"': '.-..-.', '?': '..--..', '/': '-..-.'
+    }
+  // https://steelx.gitbooks.io/javascript-algorithms/content/decode-the-morse-code.html
+  
+  // For encoding
+  if (operation === "enc") {
+        var words = str_input.toUpperCase().split(''); // Split into words
+        var encoded = [];
+
+        for (var i = 0; i < words.length; i++) {
+            encoded[i] = [];
+            for (var x = 0; x < words[i].length; x++) {
+                if (mcode[words[i][x]]) {
+                    encoded[i].push(mcode[words[i][x]]);
+                } else {
+                    alert("Invalid input");
+                    return ''; // Stop further processing if invalid input is found
+                }
+            }
+        }
+
+        var answer = encoded.map(arr => arr.join(' ')).join(' '); } // return the morsecode of that character seperated by space
+
+  else if (operation === "dec") {
+    //  decoding logic
+    var morseWords = str_input.split('   '); // assuming three spaces between words
+    var decoded = morseWords.map(morseWord => {
+        return morseWord.split(' ').map(morseChar => { // split morsechar with space seperated
+            if (Object.values(mcode).includes(morseChar)) { // if the value of morsechar matches with char
+                return Object.keys(mcode).find(key => mcode[key] === morseChar) || ''; // Find character for Morse code
+            } else {
+                alert("Invalid input"); // alert if unidentified morsechar
+                return;
+            }
+        }).join('');
+    }).join(' '); // return char of the mosechar
+    answer = decoded;
+}
+  
+	document.getElementById("output").innerHTML = answer;
+  
+}
+
+</script>
+</head>
+<body>
+<H1>Morse code encoder/decoder</H1>
+<h3>@author: Muhammad Arif Noor </h3>
+<div>
+<form>
+<p> Enter a string</p>
+<p> <textarea id="input" rows='5' cols='50'></textarea> </p>
+<p>
+<div id="optionloc" style="position:absolute; top:190px; left:240px;">
+<select id="operation">
+<option value="enc">Encode</option>
+<option value="dec">Decode</option>
+</select>
+</div>
+<div id="buttonloc" style="position:absolute; top:190px; left:320px;">
+<button type="button" id="submit" onclick=encdec()>Submit</button>
+</div>
+</p>
+
+<div>
+<p>Encoded/decoded Morse code: </p>
+<textarea id="output" rows='5' cols='50' readonly></textarea>
+</div>
+</form>
+</div>
+</body>
+</html>
+
+  
